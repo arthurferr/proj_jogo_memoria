@@ -53,9 +53,12 @@ class _TelaInicialState extends State<TelaInicial> {
             flex: 1, child: Text("Escolha o Numero de Pares de Cartas")),
         Expanded(
             flex: 8,
-            child: GridView.count(
+            child:
+            Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
+              child: GridView.count(
               crossAxisCount: 2,
-              childAspectRatio: 2,
+              childAspectRatio: 1.5,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               children: [
@@ -98,9 +101,9 @@ class _TelaInicialState extends State<TelaInicial> {
                 _button(
                     text: "Confirmar",
                     onPressed: (_numeroPares != null) ? () {} : null)
-              ],
+              ]),
             )),
-      ],
+        ],
     );
   }
 }
