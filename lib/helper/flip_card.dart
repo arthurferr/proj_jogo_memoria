@@ -3,21 +3,21 @@ import 'package:proj_jogo_memoria/widgets/imagens.dart';
 import 'package:flutter/material.dart';
 
 
-class flip_card extends StatefulWidget {
+class Flip_Card extends StatefulWidget {
 
   String imagemFrente;
   String imagemTras;
   bool permiteTroca;
 
 
-  flip_card(this.imagemFrente, this.imagemTras, this.permiteTroca);
+  Flip_Card(this.imagemFrente, this.imagemTras, this.permiteTroca);
 
   @override
-  _flip_cardState createState() => _flip_cardState();
+  _Flip_CardState createState() => _Flip_CardState();
 }
 
-class _flip_cardState extends State<flip_card> {
-  GlobalKey<_flip_cardState>cardKey = GlobalKey<_flip_cardState>();
+class _Flip_CardState extends State<Flip_Card> {
+  GlobalKey<_Flip_CardState>cardKey = GlobalKey<_Flip_CardState>();
   @override
   Widget build(BuildContext context) {
     return FlipCard(
