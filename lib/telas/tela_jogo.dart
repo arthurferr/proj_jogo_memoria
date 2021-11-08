@@ -42,8 +42,34 @@ class _TelaJogoState extends State<TelaJogo> {
               true),
           Flip_Card("Imagens_Projeto/Verso.jpg", "Imagens_Projeto/imagem_4.jpg",
               true),
+          _button(text: "Voltar"),
         ],
       ),
     );
   }
+
+  _button(
+      {required String text,
+        Color? corPrincipal,
+        Color? corSecundaria,
+        VoidCallback? onPressed}) {
+    return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          onPrimary: corSecundaria,
+          primary: corPrincipal,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+        ),
+        
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 28,
+            color: Colors.white,
+          ),
+        ));
+  }
+
 }
