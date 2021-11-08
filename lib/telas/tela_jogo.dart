@@ -20,6 +20,16 @@ class _TelaJogoState extends State<TelaJogo> {
 
   _body() {
     return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.lightGreenAccent,
+              Colors.greenAccent,
+            ],
+          )
+      ),
       child: GridView(
         gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),

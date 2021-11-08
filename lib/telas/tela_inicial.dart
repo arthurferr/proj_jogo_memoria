@@ -39,7 +39,8 @@ class _TelaInicialState extends State<TelaInicial> {
         child: Text(
           text,
           style: TextStyle(
-            color: Colors.black,
+            fontSize: 28,
+            color: Colors.white,
           ),
         ));
   }
@@ -47,17 +48,31 @@ class _TelaInicialState extends State<TelaInicial> {
   /**/
   _body(BuildContext context) {
     return Container(
-      /*decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("Imagens_Projeto/bg.jpg"))),*/
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.deepPurple,
+              Colors.blue,
+            ],
+          )
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Expanded(
-              flex: 1, child: Text("Escolha o Numero de Pares de Cartas")),
+              flex: 1,
+              child:
+              Text(
+                "Escolha o Número de Pares de Cartas",
+                style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              )),
           Expanded(
-              flex: 8,
+              flex: 4,
               child: Container(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: GridView.count(
