@@ -47,8 +47,8 @@ class _TelaInicialState extends State<TelaInicial> {
   /**/
   _body(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("Imagens_Projeto/bg.jpg"))),
+      /*decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage("Imagens_Projeto/bg.jpg"))),*/
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
