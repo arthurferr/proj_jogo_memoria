@@ -69,21 +69,23 @@ class _TelaJogoState extends State<TelaJogo> {
   _verificarImagemVirada(int indice, String imagem, bool isFrontImage,
       GlobalKey<FlipCardState> cardKey) {
     _mapController.putIfAbsent(indice, () => cardKey);
-
+    /// Desvirando uma carta já selecionada
     if (!isFrontImage) {
       _indicesVirados.remove(indice);
       _imagensViradas.remove(indice);
       return;
     }
-
+    /// Primeira carta selecionada de um para (essa carta será comparada com a carta seguinte)
     if (_indicesVirados.length % 2 == 0) {
       _indicesVirados.putIfAbsent(indice, () => true);
       _imagensViradas.putIfAbsent(indice, () => imagem);
     } else {
+      /// Segunda carta selecionada
       List<MapEntry<int, String>> entries = _imagensViradas.entries
           .where((element) => element.key != indice && element.value == imagem)
           .toList();
       if (entries.length > 0) {
+        /// Se as cartas formam um par válido ela será adicionada no Array de paresSelecionados
         MapEntry<int, String> entry = entries[0];
         _indicesVirados.putIfAbsent(indice, () => true);
         _imagensViradas.putIfAbsent(indice, () => imagem);
@@ -91,19 +93,21 @@ class _TelaJogoState extends State<TelaJogo> {
           _paresSelecionados.add(ParSelecionado(entry.key, indice));
         });
       } else {
+        /// Logica para desvirar as cartas selecionadas que não formam um par válido
         List<int> indicesParesSelecionados = [];
         if (_paresSelecionados.length > 0) {
           _paresSelecionados.forEach((element) {
             indicesParesSelecionados.add(element.indice1);
             indicesParesSelecionados.add(element.indice2);
           });
-        }
+        } /// Encontra os indices das cartas que não formam um par para poder remover da lista de cartas selecionadas
         List<int> indicesRemover = [];
         _indicesVirados.entries.forEach((element) {
           if (!indicesParesSelecionados.contains(element.key)) {
             indicesRemover.add(element.key);
           }
         });
+        /// Remove da lista as cartas que não formam um par e desvira essas cartas
         indicesRemover.forEach((element) {
           if (_mapController.containsKey(element)) {
             _mapController[element]!.currentState!.toggleCard();
@@ -112,6 +116,7 @@ class _TelaJogoState extends State<TelaJogo> {
           _imagensViradas.remove(element);
         });
 
+        /// Desvira a ultima carta selecionada caso não forme um par válido (Operação Assíncrona)
         Timer(Duration(milliseconds: 100), () {
           cardKey!.currentState!.toggleCard();
         });
