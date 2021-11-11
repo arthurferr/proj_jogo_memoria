@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,10 +39,14 @@ class _TelaJogoState extends State<TelaJogo> {
   late List<String> _imagensSorteadas;
 
   List<String> _pegarListImagens(int numeroPares) {
+    Random ramdom1 = Random(DateTime.now().millisecondsSinceEpoch);
     List<String> copia = [..._listaImagens.sublist(0, numeroPares)];
-    copia.shuffle();
+    copia.shuffle(ramdom1);
     List<String> imagens = [...copia];
-    copia.shuffle();
+    Random ramdom2 = Random(DateTime.now()
+        .subtract(Duration(days: 365 * 10))
+        .millisecondsSinceEpoch);
+    copia.shuffle(ramdom2);
     imagens = [...imagens, ...copia];
     return imagens;
   }
