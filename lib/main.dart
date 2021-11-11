@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proj_jogo_memoria/telas/tela_inicial.dart';
-import 'package:proj_jogo_memoria/telas/tela_jogo.dart';
 
 void main() {
   runApp(const MyApp());

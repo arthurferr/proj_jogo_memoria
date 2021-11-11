@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:flip_card/flip_card.dart';
-import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proj_jogo_memoria/helper/flip_card.dart';
@@ -17,8 +15,8 @@ class ParSelecionado {
 
 class TelaJogo extends StatefulWidget {
   final int numeroPares;
-  const TelaJogo({Key? key,
-  required this.numeroPares}) : super(key: key);
+
+  const TelaJogo({Key? key, required this.numeroPares}) : super(key: key);
 
   @override
   _TelaJogoState createState() => _TelaJogoState();
@@ -38,7 +36,6 @@ class _TelaJogoState extends State<TelaJogo> {
     "Imagens_Projeto/imagem_6.jpg",
   ];
   late List<String> _imagensSorteadas;
-
 
   List<String> _pegarListImagens(int numeroPares) {
     List<String> copia = [..._listaImagens.sublist(0, numeroPares)];
@@ -67,15 +64,6 @@ class _TelaJogoState extends State<TelaJogo> {
   _verificarImagemVirada(int indice, String imagem, bool isFrontImage,
       GlobalKey<FlipCardState> cardKey) {
     _mapController.putIfAbsent(indice, () => cardKey);
-
-    /*bool existePar = _paresSelecionados.where((element) => element.indice1 == indice || element.indice2 == indice)
-        .toList().length > 0;
-    if (existePar) {
-      var timer1 = Timer(Duration(milliseconds: 100), () {
-        cardKey!.currentState!.toggleCard();
-      });
-      return;
-    }*/
 
     if (!isFrontImage) {
       _indicesVirados.remove(indice);
@@ -119,18 +107,11 @@ class _TelaJogoState extends State<TelaJogo> {
           _imagensViradas.remove(element);
         });
 
-        var timer2 = Timer(Duration(milliseconds: 100), () {
+        Timer(Duration(milliseconds: 100), () {
           cardKey!.currentState!.toggleCard();
         });
       }
     }
-
-    print(
-        "Indices virados: ${_indicesVirados.entries.map((e) => "${e.key}").toList().join(", ")}");
-    print(
-        "Imagens viradas: ${_imagensViradas.entries.map((e) => "${e.value}").toList().join(", ")}");
-    print(
-        "Pares viradas: ${_paresSelecionados.map((e) => "${e.indice1} + ${e.indice2}").toList().join(", ")}");
   }
 
   _body() {
@@ -151,8 +132,12 @@ class _TelaJogoState extends State<TelaJogo> {
           ..._imagensSorteadas.asMap().entries.map((entry) {
             int indice = entry.key;
             String imagem = entry.value;
-            bool existePar = _paresSelecionados.where((element) => element.indice1 == indice || element.indice2 == indice)
-                .toList().length > 0;
+            bool existePar = _paresSelecionados
+                    .where((element) =>
+                        element.indice1 == indice || element.indice2 == indice)
+                    .toList()
+                    .length >
+                0;
             return Flip_Card("Imagens_Projeto/Verso.jpg", imagem, !existePar,
                 onFlipDone: (cardState, isFrontImage) {
               _verificarImagemVirada(indice, imagem, isFrontImage, cardState);

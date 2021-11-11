@@ -50,14 +50,13 @@ class _TelaInicialState extends State<TelaInicial> {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.deepPurple,
-              Colors.blue,
-            ],
-          )
-      ),
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Colors.deepPurple,
+          Colors.blue,
+        ],
+      )),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,10 +64,12 @@ class _TelaInicialState extends State<TelaInicial> {
         children: [
           const Expanded(
               flex: 1,
-              child:
-              Text(
+              child: Text(
                 "Escolha o Número de Pares de Cartas",
-                style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               )),
           Expanded(
@@ -126,7 +127,8 @@ class _TelaInicialState extends State<TelaInicial> {
                           text: "Confirmar",
                           onPressed: (_numeroPares != null)
                               ? () {
-                                  _abreTelaJogo(context, TelaJogo(numeroPares: _numeroPares!));
+                                  _abreTelaJogo(context,
+                                      TelaJogo(numeroPares: _numeroPares!));
                                 }
                               : null)
                     ]),
