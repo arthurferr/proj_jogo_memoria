@@ -126,7 +126,7 @@ class _TelaInicialState extends State<TelaInicial> {
                           text: "Confirmar",
                           onPressed: (_numeroPares != null)
                               ? () {
-                                  _abreTelaJogo(context, TelaJogo());
+                                  _abreTelaJogo(context, TelaJogo(numeroPares: _numeroPares!));
                                 }
                               : null)
                     ]),
