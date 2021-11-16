@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -69,12 +68,14 @@ class _TelaJogoState extends State<TelaJogo> {
   _verificarImagemVirada(int indice, String imagem, bool isFrontImage,
       GlobalKey<FlipCardState> cardKey) {
     _mapController.putIfAbsent(indice, () => cardKey);
+
     /// Desvirando uma carta já selecionada
     if (!isFrontImage) {
       _indicesVirados.remove(indice);
       _imagensViradas.remove(indice);
       return;
     }
+
     /// Primeira carta selecionada de um para (essa carta será comparada com a carta seguinte)
     if (_indicesVirados.length % 2 == 0) {
       _indicesVirados.putIfAbsent(indice, () => true);
@@ -100,13 +101,16 @@ class _TelaJogoState extends State<TelaJogo> {
             indicesParesSelecionados.add(element.indice1);
             indicesParesSelecionados.add(element.indice2);
           });
-        } /// Encontra os indices das cartas que não formam um par para poder remover da lista de cartas selecionadas
+        }
+
+        /// Encontra os indices das cartas que não formam um par para poder remover da lista de cartas selecionadas
         List<int> indicesRemover = [];
         _indicesVirados.entries.forEach((element) {
           if (!indicesParesSelecionados.contains(element.key)) {
             indicesRemover.add(element.key);
           }
         });
+
         /// Remove da lista as cartas que não formam um par e desvira essas cartas
         indicesRemover.forEach((element) {
           if (_mapController.containsKey(element)) {
@@ -135,36 +139,66 @@ class _TelaJogoState extends State<TelaJogo> {
           Colors.greenAccent,
         ],
       )),
-      child: GridView(
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        children: [
-          ..._imagensSorteadas.asMap().entries.map((entry) {
-            int indice = entry.key;
-            String imagem = entry.value;
-            bool existePar = _paresSelecionados
-                    .where((element) =>
-                        element.indice1 == indice || element.indice2 == indice)
-                    .toList()
-                    .length >
-                0;
-            return Flip_Card("Imagens_Projeto/Verso.jpg", imagem, !existePar,
-                onFlipDone: (cardState, isFrontImage) {
-              _verificarImagemVirada(indice, imagem, isFrontImage, cardState);
-            });
-          }).toList(),
-          _button(
-              text: "Voltar",
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return TelaInicial();
-                }));
-              }),
-          if (widget.numeroPares == _paresSelecionados.length) Text("Parabens")
-        ],
+      child: GridView.extent(maxCrossAxisExtent: _axisParam(widget.numeroPares),
+          children: [
+        ..._imagensSorteadas.asMap().entries.map((entry) {
+          int indice = entry.key;
+          String imagem = entry.value;
+          bool existePar = _paresSelecionados
+                  .where((element) =>
+                      element.indice1 == indice || element.indice2 == indice)
+                  .toList()
+                  .length >
+              0;
+          return Flip_Card("Imagens_Projeto/Verso.jpg", imagem, !existePar,
+              onFlipDone: (cardState, isFrontImage) {
+            _verificarImagemVirada(indice, imagem, isFrontImage, cardState);
+          });
+        }).toList(),
+        _button(
+            text: "Voltar",
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return TelaInicial();
+              }));
+            }),
+            if (widget.numeroPares == _paresSelecionados.length) _alertDialog()
+      ],
       ),
     );
+  }
+
+  _alertDialog(){
+    return AlertDialog(
+      title: const Text('AlertDialog Title'),
+      content: const Text('AlertDialog description'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
+    );
+  }
+
+  _axisParam(int num) {
+    switch (num) {
+      case 2:
+        return 200.toDouble();
+      case 3:
+        return 180.toDouble();
+      case 4:
+        return 150.toDouble();
+      case 5:
+        return 160.toDouble();
+      case 6:
+        return 160.toDouble();
+    }
   }
 
   _button(
@@ -176,7 +210,7 @@ class _TelaJogoState extends State<TelaJogo> {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           onPrimary: corSecundaria,
-          primary: corPrincipal,
+          primary: Colors.deepPurple,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),

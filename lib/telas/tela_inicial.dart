@@ -53,8 +53,8 @@ class _TelaInicialState extends State<TelaInicial> {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Colors.deepPurple,
-          Colors.blue,
+          Colors.lightGreenAccent,
+          Colors.pinkAccent,
         ],
       )),
       child: Column(
