@@ -65,7 +65,7 @@ class _TelaJogoState extends State<TelaJogo> {
     );
   }
 
-  _verificarImagemVirada(int indice, String imagem, bool isFrontImage,
+  _virarImagem(int indice, String imagem, bool isFrontImage,
       GlobalKey<FlipCardState> cardKey) {
     _mapController.putIfAbsent(indice, () => cardKey);
 
@@ -128,6 +128,35 @@ class _TelaJogoState extends State<TelaJogo> {
     }
   }
 
+  _exibirDialogoFimDeJogo(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Parabéns, Você ganhou!'),
+          content: const Text('Deseja jogar novamente?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Não'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                  return TelaInicial();
+                }));
+              },
+              child: const Text('Sim'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   _body() {
     return Container(
       decoration: BoxDecoration(
@@ -139,50 +168,36 @@ class _TelaJogoState extends State<TelaJogo> {
           Colors.greenAccent,
         ],
       )),
-      child: GridView.extent(maxCrossAxisExtent: _axisParam(widget.numeroPares),
-          children: [
-        ..._imagensSorteadas.asMap().entries.map((entry) {
-          int indice = entry.key;
-          String imagem = entry.value;
-          bool existePar = _paresSelecionados
-                  .where((element) =>
-                      element.indice1 == indice || element.indice2 == indice)
-                  .toList()
-                  .length >
-              0;
-          return Flip_Card("Imagens_Projeto/Verso.jpg", imagem, !existePar,
-              onFlipDone: (cardState, isFrontImage) {
-            _verificarImagemVirada(indice, imagem, isFrontImage, cardState);
-          });
-        }).toList(),
-        _button(
-            text: "Voltar",
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return TelaInicial();
-              }));
-            }),
-            if (widget.numeroPares == _paresSelecionados.length) _alertDialog()
-      ],
+      child: GridView.extent(
+        maxCrossAxisExtent: _axisParam(widget.numeroPares),
+        children: [
+          ..._imagensSorteadas.asMap().entries.map((entry) {
+            int indice = entry.key;
+            String imagem = entry.value;
+            bool existePar = _paresSelecionados
+                    .where((element) =>
+                        element.indice1 == indice || element.indice2 == indice)
+                    .toList()
+                    .length >
+                0;
+            return Flip_Card("Imagens_Projeto/Verso.jpg", imagem, !existePar,
+                onFlipDone: (cardState, isFrontImage) {
+              _virarImagem(indice, imagem, isFrontImage, cardState);
+              if (widget.numeroPares == _paresSelecionados.length) {
+                _exibirDialogoFimDeJogo(context);
+              }
+            });
+          }).toList(),
+          _button(
+              text: "Voltar",
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return TelaInicial();
+                }));
+              }),
+        ],
       ),
-    );
-  }
-
-  _alertDialog(){
-    return AlertDialog(
-      title: const Text('AlertDialog Title'),
-      content: const Text('AlertDialog description'),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('OK'),
-        ),
-      ],
     );
   }
 
