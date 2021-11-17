@@ -145,7 +145,8 @@ class _TelaJogoState extends State<TelaJogo> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
                   return TelaInicial();
                 }));
               },
@@ -191,10 +192,10 @@ class _TelaJogoState extends State<TelaJogo> {
           _button(
               text: "Voltar",
               onPressed: () {
-                Navigator.push(context,
+                Navigator.pushAndRemoveUntil(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return TelaInicial();
-                }));
+                }), (route) => false);
               }),
         ],
       ),

@@ -139,8 +139,9 @@ class _TelaInicialState extends State<TelaInicial> {
   }
 
   _abreTelaJogo(context, Widget page) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (BuildContext context) {
       return page;
-    }));
+    }), (route) => false);
   }
 }
