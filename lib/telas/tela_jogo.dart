@@ -39,7 +39,9 @@ class _TelaJogoState extends State<TelaJogo> {
 
   List<String> _pegarListImagens(int numeroPares) {
     Random ramdom1 = Random(DateTime.now().millisecondsSinceEpoch);
-    List<String> copia = [..._listaImagens.sublist(0, numeroPares)];
+    List<String> bancoImagens = [..._listaImagens];
+    bancoImagens.shuffle(ramdom1);
+    List<String> copia = [...bancoImagens.sublist(0, numeroPares)];
     copia.shuffle(ramdom1);
     List<String> imagens = [...copia];
     Random ramdom2 = Random(DateTime.now()
