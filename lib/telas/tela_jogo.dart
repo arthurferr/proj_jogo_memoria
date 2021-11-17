@@ -60,9 +60,37 @@ class _TelaJogoState extends State<TelaJogo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amberAccent,
-      body: _body(),
-    );
+        backgroundColor: Colors.amberAccent,
+        body: Container(
+            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.lightGreenAccent,
+                Colors.pinkAccent,
+              ],
+            )),
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(flex: 6, child: _body()),
+                  Expanded(
+                    flex: 1,
+                    child: _button(
+                        text: "Voltar",
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                            return TelaInicial();
+                          }), (route) => false);
+                        }),
+                  ),
+                ])));
   }
 
   _virarImagem(int indice, String imagem, bool isFrontImage,
@@ -189,14 +217,6 @@ class _TelaJogoState extends State<TelaJogo> {
               }
             });
           }).toList(),
-          _button(
-              text: "Voltar",
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return TelaInicial();
-                }), (route) => false);
-              }),
         ],
       ),
     );
