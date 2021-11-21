@@ -151,7 +151,7 @@ class _TelaJogoState extends State<TelaJogo> {
         });
 
         /// Desvira a ultima carta selecionada caso não forme um par válido (Operação Assíncrona)
-        Timer(Duration(milliseconds: 100), () {
+        Timer(Duration(milliseconds: 300), () {
           cardKey!.currentState!.toggleCard();
         });
       }
