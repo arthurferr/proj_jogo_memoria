@@ -34,17 +34,26 @@ class _TelaJogoState extends State<TelaJogo> {
     "Imagens_Projeto/imagem_4.jpg",
     "Imagens_Projeto/imagem_5.jpg",
     "Imagens_Projeto/imagem_6.jpg",
+    "Imagens_Projeto/imagem_7.jpg",
+    "Imagens_Projeto/imagem_8.jpg",
+    "Imagens_Projeto/imagem_9.jpg",
+    "Imagens_Projeto/imagem_10.jpg",
+    "Imagens_Projeto/imagem_12.jpg",
+    "Imagens_Projeto/imagem_13.jpg",
   ];
   late List<String> _imagensSorteadas;
 
   List<String> _pegarListImagens(int numeroPares) {
-    Random ramdom1 = Random(DateTime.now().millisecondsSinceEpoch);
+    Random ramdom1 = Random(DateTime
+        .now()
+        .millisecondsSinceEpoch);
     List<String> bancoImagens = [..._listaImagens];
     bancoImagens.shuffle(ramdom1);
     List<String> copia = [...bancoImagens.sublist(0, numeroPares)];
     copia.shuffle(ramdom1);
     List<String> imagens = [...copia];
-    Random ramdom2 = Random(DateTime.now()
+    Random ramdom2 = Random(DateTime
+        .now()
         .subtract(Duration(days: 365 * 10))
         .millisecondsSinceEpoch);
     copia.shuffle(ramdom2);
@@ -62,37 +71,44 @@ class _TelaJogoState extends State<TelaJogo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.amberAccent,
-        body: Container(
-            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.lightGreenAccent,
-                Colors.pinkAccent,
-              ],
-            )),
-            child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(flex: 6, child: _body()),
-                  Expanded(
-                    flex: 1,
-                    child: _button(
-                        text: "Voltar",
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                            return TelaInicial();
-                          }), (route) => false);
-                        }),
-                  ),
-                ])));
+      body: _body(),
+      // Container(
+      //     // margin: EdgeInsets.only(top: MediaQuery
+      //     //     .of(context)
+      //     //     .padding
+      //     //     .top),
+      //     // decoration: BoxDecoration(
+      //     //     gradient: LinearGradient(
+      //     //       begin: Alignment.topCenter,
+      //     //       end: Alignment.bottomCenter,
+      //     //       colors: [
+      //     //         Colors.lightGreenAccent,
+      //     //         Colors.pinkAccent,
+      //     //       ],
+      //     //     )),
+      //     child: Column(
+      //         mainAxisSize: MainAxisSize.max,
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         crossAxisAlignment: CrossAxisAlignment.center,
+      //         children: [
+      //           _body(),
+      //           //Expanded(flex: , child: _body()),
+      //           // Expanded(
+      //           //   flex: 1,
+      //           //   child: _button(
+      //           //       text: "Voltar",
+      //           //       onPressed: () {
+      //           //         Navigator.pushAndRemoveUntil(context,
+      //           //             MaterialPageRoute(
+      //           //                 builder: (BuildContext context) {
+      //           //                   return TelaInicial();
+      //           //                 }), (route) => false);
+      //           //       }),
+      //           // ),
+      //         ]
+      //     )
+      // )
+    );
   }
 
   _virarImagem(int indice, String imagem, bool isFrontImage,
@@ -162,65 +178,130 @@ class _TelaJogoState extends State<TelaJogo> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Parabéns, Você ganhou!'),
-          content: const Text('Deseja jogar novamente?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Não'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return TelaInicial();
-                }));
-              },
-              child: const Text('Sim'),
-            ),
-          ],
+        return Dialog(
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: Colors.lightGreenAccent,
+          elevation: 0,
+          child: _dialog(context),
         );
       },
     );
   }
 
-  _body() {
+  _dialog(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.lightGreenAccent,
-          Colors.greenAccent,
-        ],
-      )),
-      child: GridView.extent(
-        maxCrossAxisExtent: _axisParam(widget.numeroPares),
+      height: 350,
+      child: Column(
         children: [
-          ..._imagensSorteadas.asMap().entries.map((entry) {
-            int indice = entry.key;
-            String imagem = entry.value;
-            bool existePar = _paresSelecionados
-                    .where((element) =>
-                        element.indice1 == indice || element.indice2 == indice)
-                    .toList()
-                    .length >
-                0;
-            return Flip_Card("Imagens_Projeto/Verso.jpg", imagem, !existePar,
-                onFlipDone: (cardState, isFrontImage) {
-              _virarImagem(indice, imagem, isFrontImage, cardState);
-              if (widget.numeroPares == _paresSelecionados.length) {
-                _exibirDialogoFimDeJogo(context);
-              }
-            });
-          }).toList(),
+          Expanded(flex: 2, child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Parabens Você Ganhou!\nDeseja Jogar Novamente?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
+              )
+            ],
+          )),
+          Expanded(
+              flex: 6,
+              child: Image.asset(
+                "Imagens_Projeto/Verso.jpg",
+              )),
+          Expanded(flex: 2, child: _botoesDialog()),
         ],
       ),
+    );
+  }
+
+  _botoesDialog() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Não'),
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+              elevation: 15, backgroundColor: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return TelaInicial();
+                    }), (route) => false);
+          },
+          child: const Text('Sim'),
+        ),
+      ],
+    );
+  }
+
+  _body() {
+    return Container(
+        margin: EdgeInsets.only(top: MediaQuery
+            .of(context)
+            .padding
+            .top),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.lightGreenAccent,
+                Colors.greenAccent,
+              ],
+            )),
+        child:
+        Column(
+          children: [
+            Expanded(flex: 6,
+              child: GridView.extent(
+              maxCrossAxisExtent: _axisParam(widget.numeroPares),
+              children: [
+                ..._imagensSorteadas
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                  int indice = entry.key;
+                  String imagem = entry.value;
+                  bool existePar = _paresSelecionados
+                      .where((element) =>
+                  element.indice1 == indice || element.indice2 == indice)
+                      .toList()
+                      .length >
+                      0;
+                  return Flip_Card(
+                      "Imagens_Projeto/Verso.jpg", imagem, !existePar,
+                      onFlipDone: (cardState, isFrontImage) {
+                        _virarImagem(indice, imagem, isFrontImage, cardState);
+                        if (widget.numeroPares == _paresSelecionados.length) {
+                          _exibirDialogoFimDeJogo(context);
+                        }
+                      });
+                }).toList(),
+              ],
+            ),
+            ),
+            Expanded(flex: 1,
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [_botaoVoltar(text: "Voltar", onPressed: () {
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return TelaInicial();
+
+                        }), (route) => false);
+              })],
+            ))
+          ],
+        ),
     );
   }
 
@@ -239,26 +320,31 @@ class _TelaJogoState extends State<TelaJogo> {
     }
   }
 
-  _button(
-      {required String text,
-      Color? corPrincipal,
-      Color? corSecundaria,
-      VoidCallback? onPressed}) {
-    return ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          onPrimary: corSecundaria,
-          primary: Colors.deepPurple,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 28,
-            color: Colors.white,
-          ),
-        ));
+  _botaoVoltar({required String text,
+    Color? corPrincipal,
+    Color? corSecundaria,
+    VoidCallback? onPressed}) {
+    return
+      Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+                onPressed: onPressed,
+                style: ElevatedButton.styleFrom(
+                  onPrimary: corSecundaria,
+                  primary: Colors.deepPurple,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
+                ),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 35,
+                    color: Colors.white,
+                  ),
+                )),
+          ]
+      );
   }
 }

@@ -14,11 +14,19 @@ class _TelaInicialState extends State<TelaInicial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Jogo da Memória"),
-      ),
-      body: _body(context),
-    );
+        body: Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.lightBlueAccent,
+              Colors.pinkAccent,
+            ],
+          )),
+          child: _body(context),
+        ));
   }
 
 // ssh-keygen -t rsa -b 4096 -C ""
@@ -45,30 +53,20 @@ class _TelaInicialState extends State<TelaInicial> {
         ));
   }
 
-  /**/
   _body(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Colors.lightGreenAccent,
-          Colors.pinkAccent,
-        ],
-      )),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Expanded(
+          Expanded(
               flex: 1,
               child: Text(
                 "Escolha o Número de Pares de Cartas",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 28,
+                    fontSize: 32,
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               )),
